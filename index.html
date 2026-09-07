@@ -3,184 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Palletto — 스마트 물류 운영 플랫폼</title>
+<title>Palletto — 더 스마트한 물류의 시작</title>
 <style>
-  :root{
-    --bg:#08111f; --bg2:#0d1829; --panel:#111f33; --panel2:#14243a;
-    --line:#263852; --text:#f4f7fb; --muted:#93a4bb; --blue:#3d82ff;
-    --blue2:#63a0ff; --cyan:#43d7c4; --purple:#9b7cff; --green:#39c68a;
-    --yellow:#e8b84b;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Pretendard","Noto Sans KR",Arial,sans-serif;line-height:1.55}
-  a{text-decoration:none;color:inherit}
-  .container{width:min(1320px,calc(100% - 80px));margin:auto}
-  header{height:76px;border-bottom:1px solid rgba(120,150,190,.12);background:rgba(8,17,31,.86);backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
-  .nav{height:100%;display:flex;align-items:center;gap:54px}
-  .logo{display:flex;align-items:center;gap:10px;font-size:26px;font-weight:800;letter-spacing:-1px}
-  .logo-mark{width:26px;height:26px;position:relative;transform:skewY(-26deg)}
-  .logo-mark i{position:absolute;left:0;width:24px;height:7px;border-radius:3px;background:var(--blue2)}
-  .logo-mark i:nth-child(1){top:2px}.logo-mark i:nth-child(2){top:10px;width:18px}.logo-mark i:nth-child(3){top:18px;width:13px}
-  nav{display:flex;gap:42px;color:#b9c6d8;font-size:14px}
-  nav a:hover{color:#fff}
-  .nav-actions{margin-left:auto;display:flex;align-items:center;gap:24px;font-size:14px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:10px;padding:13px 22px;font-weight:700;font-size:14px;transition:.2s;cursor:pointer}
-  .btn-primary{background:var(--blue);box-shadow:0 10px 30px rgba(61,130,255,.22)}
-  .btn-primary:hover{transform:translateY(-2px);background:#4b8cff}
-  .btn-outline{border:1px solid #38506e;color:#dbe6f4;background:rgba(12,25,42,.6)}
-  .btn-outline:hover{border-color:#5d789d}
-  .hero{min-height:650px;padding:72px 0 54px;background:
-    radial-gradient(circle at 80% 40%,rgba(52,103,190,.16),transparent 34%),
-    linear-gradient(180deg,#08111f 0%,#091421 100%)}
-  .hero-grid{display:grid;grid-template-columns: .78fr 1.22fr;gap:58px;align-items:center}
-  .eyebrow{color:#62a4ff;font-size:15px;font-weight:700;margin-bottom:14px}
-  h1{font-size:58px;line-height:1.13;letter-spacing:-3.4px;margin:0 0 22px;font-weight:800}
-  h1 span{color:#4b9cff}
-  .hero-copy{font-size:16px;color:#a9b7ca;max-width:500px;line-height:1.8}
-  .hero-buttons{display:flex;gap:12px;margin-top:30px}
-  .hero-buttons .btn{padding:15px 26px}
-  .trust-row{display:flex;gap:28px;margin-top:45px}
-  .trust{display:flex;align-items:center;gap:10px;color:#aebbd0;font-size:12px}
-  .trust strong{display:block;color:#eef4fc;font-size:13px}
-  .icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#152b48;border:1px solid #264568;color:#72abff;font-size:16px}
-  .dashboard{border:1px solid #3b5574;border-radius:17px;background:#0d192a;box-shadow:0 30px 70px rgba(0,0,0,.35);overflow:hidden}
-  .dash-top{height:43px;background:#101e31;border-bottom:1px solid #20334d;display:flex;align-items:center;padding:0 15px;gap:9px}
-  .dot{width:7px;height:7px;border-radius:50%;background:#38506c}.dash-title{font-size:11px;color:#d9e4f2;margin-left:5px}
-  .dash-body{display:grid;grid-template-columns:125px 1fr;min-height:450px}
-  .sidebar{border-right:1px solid #1f3149;padding:16px 10px}
-  .side-logo{font-size:14px;font-weight:800;margin:0 8px 16px}
-  .side-item{font-size:10px;color:#91a4bc;padding:9px 10px;border-radius:6px;margin:3px 0}
-  .side-item.active{background:#1e5bc1;color:white}
-  .main{padding:16px}
-  .dash-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-  .dash-heading h3{font-size:18px;margin:0}.dash-heading small{color:#7f92ab;font-size:9px}
-  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-  .card,.chart,.table-box,.donut-box{background:#112136;border:1px solid #1e344e;border-radius:7px}
-  .card{padding:11px}.card small{color:#8fa2bb;font-size:8px}.number{font-size:19px;font-weight:800;margin:4px 0}.up{font-size:8px;color:var(--green)}
-  .spark{height:23px;margin-top:5px;position:relative;overflow:hidden}
-  .spark svg{width:100%;height:100%}
-  .mid{display:grid;grid-template-columns:1.45fr 1fr;gap:9px;margin-top:9px}
-  .chart{padding:12px}.chart-head{display:flex;justify-content:space-between;font-size:9px;margin-bottom:10px}.chart-head span{color:#8195af}
-  .bars{height:105px;display:flex;align-items:end;gap:5px;padding:0 3px;border-bottom:1px solid #263a53}
-  .bar{flex:1;background:linear-gradient(#4d91ff,#2256a4);min-width:3px;border-radius:2px 2px 0 0;opacity:.9}
-  .bar.alt{background:linear-gradient(#43d7c4,#237e78)}
-  .table-box{padding:11px}.table-box h4{font-size:10px;margin:0 0 8px}
-  table{width:100%;border-collapse:collapse;font-size:8px;color:#b7c5d8}
-  td{padding:6px 3px;border-bottom:1px solid #1c3048}.status{color:#4ed39c;background:#123b35;padding:2px 6px;border-radius:4px}
-  .bottom{display:grid;grid-template-columns:1.7fr .7fr;gap:9px;margin-top:9px}
-  .donut-box{padding:12px;display:flex;align-items:center;gap:13px}.donut{width:82px;height:82px;border-radius:50%;background:conic-gradient(#3d82ff 0 34%,#8b70ef 34% 58%,#43d7c4 58% 77%,#e8b84b 77% 90%,#6c7c91 90%);position:relative}
-  .donut:after{content:"432,568\A EA";white-space:pre;text-align:center;position:absolute;inset:18px;border-radius:50%;background:#112136;display:grid;place-items:center;font-size:9px;font-weight:800}
-  .legend{font-size:8px;color:#a6b5c8;line-height:1.9}
-  .section{padding:76px 0}
-  .section.dark2{background:#0d1929;border-top:1px solid rgba(110,140,180,.08);border-bottom:1px solid rgba(110,140,180,.08)}
-  .section-label{color:#6da8ff;font-size:13px;font-weight:700}.section h2{font-size:34px;letter-spacing:-1.7px;margin:9px 0 13px}.section-intro{color:#91a3ba;max-width:540px}
-  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:42px}
-  .feature{padding:25px;border:1px solid #20344d;border-radius:14px;background:#101f32;min-height:210px}
-  .feature .bigicon{width:43px;height:43px;border-radius:12px;background:#142c4b;border:1px solid #27476c;display:grid;place-items:center;color:#71aaff;margin-bottom:22px}
-  .feature h3{font-size:16px;margin:0 0 8px}.feature p{font-size:13px;color:#91a2b9;margin:0;line-height:1.75}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}.stat{border-left:2px solid #315b91;padding:8px 0 8px 18px}.stat b{font-size:35px}.stat span{display:block;color:#879ab3;font-size:12px;margin-top:4px}
-  .cta{padding:88px 0;text-align:center;background:radial-gradient(circle at 50% 20%,rgba(50,107,200,.18),transparent 45%),#08111f}
-  .cta h2{font-size:40px;margin:0 0 12px;letter-spacing:-2px}.cta p{color:#91a2b9;margin-bottom:27px}
-  footer{padding:30px 0;border-top:1px solid #1a2a3f;color:#687b94;font-size:12px}.footer-inner{display:flex;justify-content:space-between}
-  @media(max-width:1000px){.container{width:min(92%,700px)}nav{display:none}.hero-grid{grid-template-columns:1fr}.dashboard{margin-top:20px}.features{grid-template-columns:1fr 1fr}.cards{grid-template-columns:1fr 1fr}}
-  @media(max-width:620px){h1{font-size:42px}.trust-row{flex-direction:column;gap:12px}.features,.stats{grid-template-columns:1fr}.dash-body{grid-template-columns:85px 1fr}.sidebar{padding:10px 5px}.main{padding:8px}.mid,.bottom{grid-template-columns:1fr}.hero{padding-top:45px}}
+:root{
+  --bg:#f7faff; --surface:#fff; --ink:#14233b; --muted:#61718a;
+  --blue:#3567f3; --blue2:#5d83ff; --line:#e6ecf5; --green:#20b77a;
+  --shadow:0 24px 60px rgba(28,55,105,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.container{width:min(1180px,calc(100% - 48px));margin:auto}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:5}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:800;letter-spacing:-1px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#315ff1,#7597ff);transform:rotate(0deg);position:relative;box-shadow:0 7px 18px rgba(53,103,243,.25)}
+.logo-mark:after{content:"";position:absolute;left:8px;top:7px;width:14px;height:14px;border:2px solid #fff;border-radius:3px;transform:rotate(45deg)}
+.nav-links{display:flex;gap:34px;color:#34445d;font-size:14px;font-weight:600}
+.nav-links a{padding:29px 0 24px;border-bottom:2px solid transparent}
+.nav-links a.active{color:var(--blue);border-color:var(--blue)}
+.nav-actions{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:700}
+.btn{border:0;border-radius:10px;padding:14px 22px;font-weight:750;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{color:white;background:linear-gradient(135deg,var(--blue),#4a73f8);box-shadow:0 10px 24px rgba(53,103,243,.2)}
+.btn-ghost{color:var(--ink);background:#fff;border:1px solid #d8e0ee}
+.hero{min-height:590px;position:relative;overflow:hidden;background:
+ radial-gradient(circle at 76% 34%,rgba(116,164,255,.28),transparent 29%),
+ radial-gradient(circle at 92% 72%,rgba(189,218,255,.55),transparent 31%),
+ linear-gradient(110deg,#fff 0%,#f8fbff 54%,#edf5ff 100%)}
+.hero:after{content:"";position:absolute;right:-130px;bottom:-210px;width:660px;height:440px;background:rgba(172,208,245,.22);filter:blur(38px);border-radius:50%}
+.hero-inner{display:grid;grid-template-columns:45% 55%;align-items:center;gap:18px;min-height:514px;position:relative;z-index:2}
+.eyebrow{font-size:15px;color:var(--blue);font-weight:750;margin-bottom:18px}
+h1{font-size:48px;line-height:1.18;letter-spacing:-2.6px;margin:0 0 20px;font-weight:850}
+h1 span{color:var(--blue)}
+.hero-copy{font-size:16px;line-height:1.75;color:#53647d;margin:0 0 30px;max-width:470px}
+.hero-buttons{display:flex;gap:12px}
+.dashboard-wrap{position:relative;padding:24px 0 25px 12px}
+.dashboard{background:rgba(255,255,255,.96);border:1px solid #dce5f2;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:115px 1fr;min-height:365px}
+.sidebar{background:#f8faff;border-right:1px solid var(--line);padding:18px 10px}
+.side-logo{font-size:12px;font-weight:800;margin-bottom:24px;display:flex;gap:5px;align-items:center}
+.side-dot{width:11px;height:11px;background:var(--blue);border-radius:3px}
+.side-item{font-size:10px;color:#65748a;padding:9px 9px;border-radius:6px;margin-bottom:3px}
+.side-item.active{color:#fff;background:var(--blue);font-weight:700}
+.main-dash{padding:18px}
+.dash-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;margin-bottom:13px}
+.avatar{width:22px;height:22px;border-radius:50%;background:#dbe5ff;color:#3760d9;display:inline-flex;align-items:center;justify-content:center;font-size:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kpi{border:1px solid #edf1f7;border-radius:8px;padding:10px;background:#fff}
+.kpi small{display:block;color:#76849a;font-size:8px;margin-bottom:6px}
+.kpi b{font-size:16px}
+.up{font-size:8px;color:var(--green);margin-left:4px}
+.chart{margin-top:10px;border:1px solid #edf1f7;border-radius:8px;padding:10px;height:105px}
+.chart-head{display:flex;justify-content:space-between;font-size:9px;font-weight:800}
+.chart svg{width:100%;height:68px;margin-top:3px}
+.bottom-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:8px;margin-top:8px}
+.table,.donut-card{border:1px solid #edf1f7;border-radius:8px;padding:9px}
+.table h4,.donut-card h4{font-size:9px;margin:0 0 7px}
+.rows{font-size:7px}
+.row{display:grid;grid-template-columns:1fr .7fr .7fr .5fr;padding:4px 0;border-bottom:1px solid #f0f3f8;color:#6d7b90}
+.badge{color:var(--green);background:#e9faf3;border-radius:4px;padding:2px 4px}
+.donut-box{display:flex;align-items:center;gap:12px}
+.donut{width:57px;height:57px;border-radius:50%;background:conic-gradient(var(--blue) 0 78%,#9fb7ff 78% 92%,#e7edf8 92% 100%);position:relative}
+.donut:after{content:"356";position:absolute;inset:9px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.legend{font-size:7px;color:#68788f;line-height:1.9}
+.float-card{position:absolute;right:-5px;top:15px;background:#fff;border:1px solid #e7edf6;border-radius:11px;padding:12px 15px;width:166px;box-shadow:0 14px 30px rgba(35,64,110,.11);font-size:10px}
+.float-card strong{display:block;font-size:11px;margin-bottom:4px}
+.float-card .icon{float:left;width:28px;height:28px;border-radius:8px;background:#edf3ff;color:var(--blue);display:grid;place-items:center;margin-right:9px;font-size:15px}
+.float-card.two{top:101px}
+.section{padding:66px 0;background:#fff}
+.features{display:grid;grid-template-columns:repeat(4,1fr)}
+.feature{padding:4px 34px;border-right:1px solid var(--line)}
+.feature:first-child{padding-left:10px}.feature:last-child{border-right:0}
+.ficon{width:48px;height:48px;border-radius:50%;background:#eef4ff;color:var(--blue);display:grid;place-items:center;font-size:21px;margin-bottom:15px}
+.feature h3{font-size:16px;margin:0 0 8px;letter-spacing:-.5px}
+.feature p{font-size:12px;line-height:1.65;color:#66758b;margin:0}
+.solution{background:#f8fbff;padding:74px 0}
+.solution-inner{display:grid;grid-template-columns:1fr 1fr;gap:78px;align-items:center}
+.warehouse{height:330px;border-radius:15px;overflow:hidden;position:relative;background:
+linear-gradient(90deg,rgba(22,44,70,.7),rgba(73,108,139,.18)),
+repeating-linear-gradient(90deg,transparent 0 55px,rgba(255,255,255,.2) 56px 59px),
+linear-gradient(135deg,#b9c8d4,#637b8c 48%,#d7dee3)}
+.warehouse:before{content:"";position:absolute;inset:0;background:
+linear-gradient(105deg,transparent 0 42%,rgba(255,255,255,.23) 43% 44%,transparent 45%),
+repeating-linear-gradient(0deg,transparent 0 64px,rgba(255,255,255,.14) 65px 68px)}
+.shelf{position:absolute;left:9%;top:14%;width:58%;height:68%;border:7px solid rgba(45,59,69,.75);border-top-width:9px;box-shadow:inset 0 0 0 7px rgba(255,255,255,.18)}
+.shelf:after{content:"";position:absolute;left:0;right:0;top:33%;height:7px;background:rgba(45,59,69,.75);box-shadow:0 78px 0 rgba(45,59,69,.75)}
+.inventory-card{position:absolute;right:25px;top:32px;background:#fff;border-radius:12px;padding:15px 18px;width:205px;box-shadow:0 18px 35px rgba(0,0,0,.16)}
+.inventory-card small{font-size:10px;color:#6d7c91}.inventory-card b{display:block;font-size:22px;margin:5px 0}.inventory-card span{font-size:9px;color:var(--green)}
+.solution-copy .label{font-size:11px;color:var(--blue);font-weight:800;letter-spacing:1px}
+.solution-copy h2{font-size:34px;line-height:1.3;letter-spacing:-1.7px;margin:12px 0 16px}
+.solution-copy p{font-size:14px;line-height:1.8;color:#607087;max-width:470px}
+.cta{padding:76px 0;text-align:center;background:#fff}
+.cta h2{font-size:32px;letter-spacing:-1.3px;margin:0 0 12px}
+.cta p{color:#68778c;font-size:14px;margin:0 0 24px}
+footer{background:#13233c;color:#aebbd0;padding:34px 0;font-size:12px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.footer-logo{color:#fff;font-weight:800;font-size:17px}
+@media(max-width:900px){
+ .nav-links{display:none}.hero-inner,.solution-inner{grid-template-columns:1fr}.hero{padding-bottom:40px}.dashboard-wrap{padding-right:25px}
+ .features{grid-template-columns:1fr 1fr;gap:30px}.feature{border:0;padding:0 10px}
+ h1{font-size:40px}.solution-inner{gap:35px}
+}
+@media(max-width:560px){
+ .container{width:min(100% - 30px,1180px)}.nav-actions{gap:8px}.nav-actions>a{display:none}
+ .nav{height:65px}.hero-inner{min-height:auto;padding:55px 0 20px}
+ h1{font-size:34px}.hero-copy{font-size:14px}.hero-buttons{flex-direction:column}
+ .dashboard{grid-template-columns:75px 1fr}.sidebar{padding:12px 7px}.side-item{font-size:8px;padding:8px 5px}
+ .main-dash{padding:10px}.kpis{grid-template-columns:1fr 1fr}.bottom-grid{grid-template-columns:1fr}.float-card{display:none}
+ .features{grid-template-columns:1fr}.section{padding:50px 0}.solution{padding:50px 0}
+ .warehouse{height:260px}.solution-copy h2{font-size:28px}
+ .footer-inner{gap:15px;flex-direction:column;align-items:flex-start}
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <a class="logo" href="#"><span class="logo-mark"><i></i><i></i><i></i></span>Palletto</a>
-    <nav>
-      <a href="#product">제품 소개</a><a href="#features">주요 기능</a><a href="#pricing">요금제</a><a href="#cases">고객 사례</a><a href="#faq">자주 묻는 질문</a>
+<header class="hero">
+  <div class="container">
+    <nav class="nav">
+      <a class="logo" href="#"><span class="logo-mark"></span>Palletto</a>
+      <div class="nav-links">
+        <a class="active" href="#">홈</a><a href="#features">기능</a><a href="#solution">요금제</a><a href="#solution">고객사례</a><a href="#contact">고객지원</a>
+      </div>
+      <div class="nav-actions"><a href="#">로그인</a><a class="btn btn-primary" href="#contact">무료로 시작하기</a></div>
     </nav>
-    <div class="nav-actions"><a href="#">로그인</a><a class="btn btn-primary" href="#start">무료로 시작하기</a></div>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">더 스마트한 물류의 시작</div>
+        <h1>물류 운영을<br><span>더 쉽고, 더 효율적으로</span></h1>
+        <p class="hero-copy">Palletto는 창고, 재고, 출고, 배송까지<br>물류의 모든 과정을 하나의 플랫폼에서 관리할 수 있는<br>통합 물류 SaaS입니다.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#contact">무료로 시작하기 →</a>
+          <a class="btn btn-ghost" href="#solution">◉ &nbsp; 데모 보기</a>
+        </div>
+      </div>
+      <div class="dashboard-wrap">
+        <div class="dashboard">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="side-dot"></span>Palletto</div>
+            <div class="side-item active">⌂ &nbsp; 대시보드</div><div class="side-item">♙ &nbsp; 입고관리</div>
+            <div class="side-item">▣ &nbsp; 재고관리</div><div class="side-item">▤ &nbsp; 출고관리</div>
+            <div class="side-item">▱ &nbsp; 배송관리</div><div class="side-item">▥ &nbsp; 보고서</div><div class="side-item">⚙ &nbsp; 설정</div>
+          </aside>
+          <main class="main-dash">
+            <div class="dash-top"><span>대시보드</span><span>♧　<span class="avatar">SJ</span></span></div>
+            <div class="kpis">
+              <div class="kpi"><small>오늘 입고</small><b>128</b><span class="up">↑ 12%</span></div>
+              <div class="kpi"><small>오늘 출고</small><b>356</b><span class="up">↑ 8%</span></div>
+              <div class="kpi"><small>재고 수량</small><b>12,480</b><span class="up">↑ 5%</span></div>
+              <div class="kpi"><small>배송 완료율</small><b>98.7%</b><span class="up">↑ 1.2%</span></div>
+            </div>
+            <div class="chart"><div class="chart-head"><span>물류량 추이</span><span>최근 7일⌄</span></div>
+              <svg viewBox="0 0 500 80" preserveAspectRatio="none"><polyline points="0,61 45,49 92,51 135,31 182,37 226,51 271,36 315,39 359,35 406,41 450,27 500,17" fill="none" stroke="#3567f3" stroke-width="3"/><polyline points="0,61 45,49 92,51 135,31 182,37 226,51 271,36 315,39 359,35 406,41 450,27 500,17 500,80 0,80" fill="rgba(53,103,243,.08)" stroke="none"/></svg>
+            </div>
+            <div class="bottom-grid">
+              <div class="table"><h4>최근 입출고 현황</h4><div class="rows">
+                <div class="row"><span>09-07 16:32</span><span>입고</span><span>120</span><span class="badge">완료</span></div>
+                <div class="row"><span>09-07 15:21</span><span>출고</span><span>80</span><span class="badge">완료</span></div>
+                <div class="row"><span>09-07 14:05</span><span>입고</span><span>200</span><span class="badge">완료</span></div>
+                <div class="row"><span>09-07 12:48</span><span>출고</span><span>150</span><span class="badge">완료</span></div>
+              </div></div>
+              <div class="donut-card"><h4>출고 현황</h4><div class="donut-box"><div class="donut"></div><div class="legend">● 정상 출고　92%<br>● 지연 출고　5%<br>● 취소　3%</div></div></div>
+            </div>
+          </main>
+        </div>
+        <div class="float-card"><div class="icon">◇</div><strong>실시간 재고 현황</strong>정확한 재고로 더 큰 신뢰를</div>
+        <div class="float-card two"><div class="icon">▣</div><strong>빠른 배송 처리</strong>주문부터 배송까지 한 번에</div>
+      </div>
+    </div>
   </div>
 </header>
 
-<main>
-<section class="hero" id="product">
-  <div class="container hero-grid">
-    <div>
-      <div class="eyebrow">창고 운영이 더 쉬워지는 방법</div>
-      <h1>물류의 모든 순간을<br>한눈에, <span>Palletto</span></h1>
-      <p class="hero-copy">입고부터 출고까지, 창고의 모든 물류 데이터를 실시간으로 통합 관리하는 물류 SaaS입니다. 복잡한 운영을 단순하게, 더 정확하고 빠르게.</p>
-      <div class="hero-buttons">
-        <a class="btn btn-primary" href="#start">무료로 시작하기&nbsp; →</a>
-        <a class="btn btn-outline" href="#features">▷ &nbsp;데모 영상 보기</a>
-      </div>
-      <div class="trust-row">
-        <div class="trust"><div class="icon">◫</div><div><strong>실시간 재고 관리</strong>정확한 재고 파악</div></div>
-        <div class="trust"><div class="icon">✥</div><div><strong>운영 효율화</strong>작업 시간 30% 절감</div></div>
-        <div class="trust"><div class="icon">◈</div><div><strong>데이터 기반 의사결정</strong>리포트 & 인사이트</div></div>
-      </div>
-    </div>
-
-    <div class="dashboard" aria-label="Palletto 대시보드 미리보기">
-      <div class="dash-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dash-title">Palletto / Dashboard</span></div>
-      <div class="dash-body">
-        <aside class="sidebar">
-          <div class="side-logo">◈ Palletto</div>
-          <div class="side-item active">⌂ &nbsp; 대시보드</div><div class="side-item">▣ &nbsp; 입고</div><div class="side-item">◫ &nbsp; 출고</div>
-          <div class="side-item">▤ &nbsp; 재고</div><div class="side-item">◌ &nbsp; 로케이션</div><div class="side-item">☷ &nbsp; 작업지시</div>
-          <div class="side-item">◉ &nbsp; 운영현황</div><div class="side-item">▥ &nbsp; 리포트</div><div class="side-item">⚙ &nbsp; 설정</div>
-        </aside>
-        <section class="main">
-          <div class="dash-heading"><div><h3>대시보드</h3><small>창고의 현황을 한눈에 확인할 수 있습니다.</small></div><small>본사 창고　▾　 2026.09.07</small></div>
-          <div class="cards">
-            <div class="card"><small>총 재고 수량</small><div class="number">432,568 <small>EA</small></div><div class="up">▲ 2.4% (전일 대비)</div><div class="spark"><svg viewBox="0 0 100 25" preserveAspectRatio="none"><polyline points="0,21 10,20 20,22 30,17 40,18 50,13 60,15 70,8 80,10 90,4 100,2" fill="none" stroke="#43d7c4" stroke-width="1.5"/></svg></div></div>
-            <div class="card"><small>오늘 입고</small><div class="number">12,460 <small>EA</small></div><div class="up">▲ 8.2% (전일 대비)</div><div class="spark"><svg viewBox="0 0 100 25" preserveAspectRatio="none"><polyline points="0,22 10,18 20,20 30,15 40,16 50,11 60,14 70,8 80,9 90,3 100,1" fill="none" stroke="#3d82ff" stroke-width="1.5"/></svg></div></div>
-            <div class="card"><small>오늘 출고</small><div class="number">10,238 <small>EA</small></div><div class="up">▲ 5.1% (전일 대비)</div><div class="spark"><svg viewBox="0 0 100 25" preserveAspectRatio="none"><polyline points="0,21 10,22 20,17 30,18 40,13 50,15 60,10 70,11 80,6 90,7 100,2" fill="none" stroke="#9b7cff" stroke-width="1.5"/></svg></div></div>
-            <div class="card"><small>재고 가용률</small><div class="number">96.8%</div><div class="up">▲ 1.2% (전일 대비)</div><div class="spark"><svg viewBox="0 0 100 25"><circle cx="50" cy="13" r="9" fill="none" stroke="#243d58" stroke-width="4"/><circle cx="50" cy="13" r="9" fill="none" stroke="#43d7c4" stroke-width="4" stroke-dasharray="49 57" transform="rotate(-90 50 13)"/></svg></div></div>
-          </div>
-          <div class="mid">
-            <div class="chart"><div class="chart-head"><b>입출고 추이</b><span>7일　 <b>30일</b>　90일</span></div><div class="bars">
-              <i class="bar" style="height:48%"></i><i class="bar alt" style="height:38%"></i><i class="bar" style="height:62%"></i><i class="bar alt" style="height:50%"></i><i class="bar" style="height:55%"></i><i class="bar alt" style="height:44%"></i><i class="bar" style="height:71%"></i><i class="bar alt" style="height:57%"></i><i class="bar" style="height:66%"></i><i class="bar alt" style="height:53%"></i><i class="bar" style="height:79%"></i><i class="bar alt" style="height:62%"></i><i class="bar" style="height:73%"></i><i class="bar alt" style="height:66%"></i><i class="bar" style="height:84%"></i><i class="bar alt" style="height:69%"></i><i class="bar" style="height:77%"></i><i class="bar alt" style="height:72%"></i><i class="bar" style="height:91%"></i><i class="bar alt" style="height:76%"></i></div></div>
-            <div class="table-box"><h4>주요 상품 재고 현황</h4><table><tr><td>스마트폰 케이스</td><td>12,540</td><td>A-01-03</td><td><span class="status">정상</span></td></tr><tr><td>무선 이어폰</td><td>8,230</td><td>B-04-02</td><td><span class="status">정상</span></td></tr><tr><td>노트북</td><td>5,680</td><td>C-02-01</td><td><span class="status">정상</span></td></tr><tr><td>충전 케이블</td><td>3,120</td><td>A-03-05</td><td><span class="status">정상</span></td></tr></table></div>
-          </div>
-          <div class="bottom">
-            <div class="table-box"><h4>최근 작업 현황</h4><table><tr><td>09:42</td><td>출고</td><td>무선 이어폰</td><td>200 EA</td><td>박지민</td><td><span class="status">완료</span></td></tr><tr><td>09:31</td><td>입고</td><td>노트북</td><td>50 EA</td><td>이상훈</td><td><span class="status">완료</span></td></tr><tr><td>09:15</td><td>피킹</td><td>스마트폰 케이스</td><td>320 EA</td><td>김도현</td><td><span class="status">진행중</span></td></tr></table></div>
-            <div class="donut-box"><div class="donut"></div><div class="legend">● A존　34.2%<br>● B존　23.6%<br>● C존　18.7%<br>● D존　13.5%<br>● 기타　10.0%</div></div>
-          </div>
-        </section>
-      </div>
-    </div>
+<section class="section" id="features">
+  <div class="container features">
+    <article class="feature"><div class="ficon">◇</div><h3>통합 재고 관리</h3><p>실시간 재고 현황을 확인하고<br>정확한 재고 관리를 실현하세요.</p></article>
+    <article class="feature"><div class="ficon">⌂</div><h3>창고 운영 최적화</h3><p>입고, 보관, 피킹, 출고까지<br>창고 운영을 효율적으로 관리합니다.</p></article>
+    <article class="feature"><div class="ficon">▣</div><h3>배송 추적</h3><p>운송 현황을 실시간으로 확인하고<br>고객에게 더 나은 서비스를 제공합니다.</p></article>
+    <article class="feature"><div class="ficon">↗</div><h3>데이터 기반 의사결정</h3><p>다양한 리포트와 분석으로<br>더 나은 비즈니스 전략을 세울 수 있습니다.</p></article>
   </div>
 </section>
 
-<section class="section dark2" id="features">
-  <div class="container">
-    <div class="section-label">Palletto가 제공하는 가치</div>
-    <h2>더 스마트한 창고 운영,<br>지금 경험해 보세요.</h2>
-    <p class="section-intro">Palletto는 단순한 재고 관리 도구가 아닙니다. 창고 운영의 효율을 높이고, 비즈니스의 성장을 돕는 가장 신뢰할 수 있는 파트너입니다.</p>
-    <div class="features">
-      <article class="feature"><div class="bigicon">▣</div><h3>실시간 재고 가시성</h3><p>모든 상품의 위치와 수량을 실시간으로 확인하여 재고 불일치를 최소화합니다.</p></article>
-      <article class="feature"><div class="bigicon">♧</div><h3>간편한 작업 관리</h3><p>입고, 출고, 피킹, 검수 등 모든 작업을 한 화면에서 관리해 운영 효율을 높입니다.</p></article>
-      <article class="feature"><div class="bigicon">⌁</div><h3>데이터 기반 인사이트</h3><p>다양한 리포트와 분석으로 수요 예측부터 재고 최적화까지 더 나은 의사결정을 지원합니다.</p></article>
-      <article class="feature"><div class="bigicon">♢</div><h3>안정적인 보안과 신뢰성</h3><p>기업 수준의 보안 체계와 안정적인 인프라로 소중한 데이터를 안전하게 보호합니다.</p></article>
-    </div>
-    <div class="stats" id="cases">
-      <div class="stat"><b>30%</b><span>평균 작업 시간 절감</span></div>
-      <div class="stat"><b>96.8%</b><span>재고 데이터 정확도</span></div>
-      <div class="stat"><b>24/7</b><span>실시간 운영 모니터링</span></div>
-    </div>
+<section class="solution" id="solution">
+  <div class="container solution-inner">
+    <div class="warehouse"><div class="shelf"></div><div class="inventory-card"><small>실시간 재고</small><b>12,480 개</b><span>↑ 5%　지난 24시간 대비</span></div></div>
+    <div class="solution-copy"><div class="label">OUR SOLUTION</div><h2>물류의 모든 과정을<br>하나의 플랫폼에서</h2><p>Palletto는 창고, 재고, 출고, 배송까지 물류의 전 과정을 간편하게 관리할 수 있는 올인원 솔루션입니다.</p><a class="btn btn-primary" href="#contact">솔루션 알아보기 →</a></div>
   </div>
 </section>
 
-<section class="cta" id="start">
-  <div class="container">
-    <h2>더 효율적인 창고, 더 성장하는 비즈니스</h2>
-    <p>복잡한 물류 운영을 하나의 화면으로 시작해 보세요.</p>
-    <a class="btn btn-primary" href="#">무료로 시작하기&nbsp; →</a>
-  </div>
+<section class="cta" id="contact">
+  <div class="container"><h2>더 효율적인 물류 운영을 시작하세요.</h2><p>복잡한 물류 업무를 하나의 화면에서 간단하게 관리하세요.</p><a class="btn btn-primary" href="mailto:hello@palletto.example">무료로 시작하기 →</a></div>
 </section>
-</main>
 
-<footer id="faq">
-  <div class="container footer-inner">
-    <div>© 2026 Palletto. All rights reserved.</div>
-    <div>제품 소개　 주요 기능　 요금제　 고객 사례　 문의하기</div>
-  </div>
-</footer>
+<footer><div class="container footer-inner"><div class="footer-logo">◆ Palletto</div><div>© 2026 Palletto. All rights reserved.</div></div></footer>
 </body>
 </html>
