@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palletto — 더 스마트한 물류의 시작</title>
+<style>
+:root{
+  --bg:#f7faff; --surface:#fff; --ink:#14233b; --muted:#61718a;
+  --blue:#3567f3; --blue2:#5d83ff; --line:#e6ecf5; --green:#20b77a;
+  --shadow:0 24px 60px rgba(28,55,105,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.container{width:min(1180px,calc(100% - 48px));margin:auto}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:5}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:800;letter-spacing:-1px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#315ff1,#7597ff);transform:rotate(0deg);position:relative;box-shadow:0 7px 18px rgba(53,103,243,.25)}
+.logo-mark:after{content:"";position:absolute;left:8px;top:7px;width:14px;height:14px;border:2px solid #fff;border-radius:3px;transform:rotate(45deg)}
+.nav-links{display:flex;gap:34px;color:#34445d;font-size:14px;font-weight:600}
+.nav-links a{padding:29px 0 24px;border-bottom:2px solid transparent}
+.nav-links a.active{color:var(--blue);border-color:var(--blue)}
+.nav-actions{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:700}
+.btn{border:0;border-radius:10px;padding:14px 22px;font-weight:750;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{color:white;background:linear-gradient(135deg,var(--blue),#4a73f8);box-shadow:0 10px 24px rgba(53,103,243,.2)}
+.btn-ghost{color:var(--ink);background:#fff;border:1px solid #d8e0ee}
+.hero{min-height:590px;position:relative;overflow:hidden;background:
+ radial-gradient(circle at 76% 34%,rgba(116,164,255,.28),transparent 29%),
+ radial-gradient(circle at 92% 72%,rgba(189,218,255,.55),transparent 31%),
+ linear-gradient(110deg,#fff 0%,#f8fbff 54%,#edf5ff 100%)}
+.hero:after{content:"";position:absolute;right:-130px;bottom:-210px;width:660px;height:440px;background:rgba(172,208,245,.22);filter:blur(38px);border-radius:50%}
+.hero-inner{display:grid;grid-template-columns:45% 55%;align-items:center;gap:18px;min-height:514px;position:relative;z-index:2}
+.eyebrow{font-size:15px;color:var(--blue);font-weight:750;margin-bottom:18px}
+h1{font-size:48px;line-height:1.18;letter-spacing:-2.6px;margin:0 0 20px;font-weight:850}
+h1 span{color:var(--blue)}
+.hero-copy{font-size:16px;line-height:1.75;color:#53647d;margin:0 0 30px;max-width:470px}
+.hero-buttons{display:flex;gap:12px}
+.dashboard-wrap{position:relative;padding:24px 0 25px 12px}
+.dashboard{background:rgba(255,255,255,.96);border:1px solid #dce5f2;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:115px 1fr;min-height:365px}
+.sidebar{background:#f8faff;border-right:1px solid var(--line);padding:18px 10px}
+.side-logo{font-size:12px;font-weight:800;margin-bottom:24px;display:flex;gap:5px;align-items:center}
+.side-dot{width:11px;height:11px;background:var(--blue);border-radius:3px}
+.side-item{font-size:10px;color:#65748a;padding:9px 9px;border-radius:6px;margin-bottom:3px}
+.side-item.active{color:#fff;background:var(--blue);font-weight:700}
+.main-dash{padding:18px}
+.dash-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;margin-bottom:13px}
+.avatar{width:22px;height:22px;border-radius:50%;background:#dbe5ff;color:#3760d9;display:inline-flex;align-items:center;justify-content:center;font-size:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kpi{border:1px solid #edf1f7;border-radius:8px;padding:10px;background:#fff}
+.kpi small{display:block;color:#76849a;font-size:8px;margin-bottom:6px}
+.kpi b{font-size:16px}
+.up{font-size:8px;color:var(--green);margin-left:4px}
+.chart{margin-top:10px;border:1px solid #edf1f7;border-radius:8px;padding:10px;height:105px}
+.chart-head{display:flex;justify-content:space-between;font-size:9px;font-weight:800}
+.chart svg{width:100%;height:68px;margin-top:3px}
+.bottom-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:8px;margin-top:8px}
+.table,.donut-card{border:1px solid #edf1f7;border-radius:8px;padding:9px}
+.table h4,.donut-card h4{font-size:9px;margin:0 0 7px}
+.rows{font-size:7px}
+.row{display:grid;grid-template-columns:1fr .7fr .7fr .5fr;padding:4px 0;border-bottom:1px solid #f0f3f8;color:#6d7b90}
+.badge{color:var(--green);background:#e9faf3;border-radius:4px;padding:2px 4px}
+.donut-box{display:flex;align-items:center;gap:12px}
+.donut{width:57px;height:57px;border-radius:50%;background:conic-gradient(var(--blue) 0 78%,#9fb7ff 78% 92%,#e7edf8 92% 100%);position:relative}
+.donut:after{content:"356";position:absolute;inset:9px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.legend{font-size:7px;color:#68788f;line-height:1.9}
+.float-card{position:absolute;right:-5px;top:15px;background:#fff;border:1px solid #e7edf6;border-radius:11px;padding:12px 15px;width:166px;box-shadow:0 14px 30px rgba(35,64,110,.11);font-size:10px}
+.float-card strong{display:block;font-size:11px;margin-bottom:4px}
+.float-card .icon{float:left;width:28px;height:28px;border-radius:8px;background:#edf3ff;color:var(--blue);display:grid;place-items:center;margin-right:9px;font-size:15px}
+.float-card.two{top:101px}
+.section{padding:66px 0;background:#fff}
+.features{display:grid;grid-template-columns:repeat(4,1fr)}
+.feature{padding:4px 34px;border-right:1px solid var(--line)}
+.feature:first-child{padding-left:10px}.feature:last-child{border-right:0}
+.ficon{width:48px;height:48px;border-radius:50%;background:#eef4ff;color:var(--blue);display:grid;place-items:center;font-size:21px;margin-bottom:15px}
+.feature h3{font-size:16px;margin:0 0 8px;letter-spacing:-.5px}
+.feature p{font-size:12px;line-height:1.65;color:#66758b;margin:0}
+.solution{background:#f8fbff;padding:74px 0}
+.solution-inner{display:grid;grid-template-columns:1fr 1fr;gap:78px;align-items:center}
+.warehouse{height:330px;border-radius:15px;overflow:hidden;position:relative;background:
+linear-gradient(90deg,rgba(22,44,70,.7),rgba(73,108,139,.18)),
+repeating-linear-gradient(90deg,transparent 0 55px,rgba(255,255,255,.2) 56px 59px),
+linear-gradient(135deg,#b9c8d4,#637b8c 48%,#d7dee3)}
+.warehouse:before{content:"";position:absolute;inset:0;background:
+linear-gradient(105deg,transparent 0 42%,rgba(255,255,255,.23) 43% 44%,transparent 45%),
+repeating-linear-gradient(0deg,transparent 0 64px,rgba(255,255,255,.14) 65px 68px)}
+.shelf{position:absolute;left:9%;top:14%;width:58%;height:68%;border:7px solid rgba(45,59,69,.75);border-top-width:9px;box-shadow:inset 0 0 0 7px rgba(255,255,255,.18)}
+.shelf:after{content:"";position:absolute;left:0;right:0;top:33%;height:7px;background:rgba(45,59,69,.75);box-shadow:0 78px 0 rgba(45,59,69,.75)}
+.inventory-card{position:absolute;right:25px;top:32px;background:#fff;border-radius:12px;padding:15px 18px;width:205px;box-shadow:0 18px 35px rgba(0,0,0,.16)}
+.inventory-card small{font-size:10px;color:#6d7c91}.inventory-card b{display:block;font-size:22px;margin:5px 0}.inventory-card span{font-size:9px;color:var(--green)}
+.solution-copy .label{font-size:11px;color:var(--blue);font-weight:800;letter-spacing:1px}
+.solution-copy h2{font-size:34px;line-height:1.3;letter-spacing:-1.7px;margin:12px 0 16px}
+.solution-copy p{font-size:14px;line-height:1.8;color:#607087;max-width:470px}
+.cta{padding:76px 0;text-align:center;background:#fff}
+.cta h2{font-size:32px;letter-spacing:-1.3px;margin:0 0 12px}
+.cta p{color:#68778c;font-size:14px;margin:0 0 24px}
+footer{background:#13233c;color:#aebbd0;padding:34px 0;font-size:12px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.footer-logo{color:#fff;font-weight:800;font-size:17px}
+@media(max-width:900px){
+ .nav-links{display:none}.hero-inner,.solution-inner{grid-template-columns:1fr}.hero{padding-bottom:40px}.dashboard-wrap{padding-right:25px}
+ .features{grid-template-columns:1fr 1fr;gap:30px}.feature{border:0;padding:0 10px}
+ h1{font-size:40px}.solution-inner{gap:35px}
+}
+@media(max-width:560px){
+ .container{width:min(100% - 30px,1180px)}.nav-actions{gap:8px}.nav-actions>a{display:none}
+ .nav{height:65px}.hero-inner{min-height:auto;padding:55px 0 20px}
+ h1{font-size:34px}.hero-copy{font-size:14px}.hero-buttons{flex-direction:column}
+ .dashboard{grid-template-columns:75px 1fr}.sidebar{padding:12px 7px}.side-item{font-size:8px;padding:8px 5px}
+ .main-dash{padding:10px}.kpis{grid-template-columns:1fr 1fr}.bottom-grid{grid-template-columns:1fr}.float-card{display:none}
+ .features{grid-template-columns:1fr}.section{padding:50px 0}.solution{padding:50px 0}
+ .warehouse{height:260px}.solution-copy h2{font-size:28px}
+ .footer-inner{gap:15px;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="container">
+    <nav class="nav">
+      <a class="logo" href="#"><span class="logo-mark"></span>Palletto</a>
+      <div class="nav-links">
+        <a class="active" href="#">홈</a><a href="#features">기능</a><a href="#solution">요금제</a><a href="#solution">고객사례</a><a href="#contact">고객지원</a>
+      </div>
+      <div class="nav-actions"><a href="#">로그인</a><a class="btn btn-primary" href="#contact">무료로 시작하기</a></div>
+    </nav>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">더 스마트한 물류의 시작</div>
+        <h1>물류 운영을<br><span>더 쉽고, 더 효율적으로</span></h1>
+        <p class="hero-copy">Palletto는 창고, 재고, 출고, 배송까지<br>물류의 모든 과정을 하나의 플랫폼에서 관리할 수 있는<br>통합 물류 SaaS입니다.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#contact">무료로 시작하기 →</a>
+          <a class="btn btn-ghost" href="#solution">◉ &nbsp; 데모 보기</a>
+        </div>
+      </div>
+      <div class="dashboard-wrap">
+        <div class="dashboard">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="side-dot"></span>Palletto</div>
+            <div class="side-item active">⌂ &nbsp; 대시보드</div><div class="side-item">♙ &nbsp; 입고관리</div>
+            <div class="side-item">▣ &nbsp; 재고관리</div><div class="side-item">▤ &nbsp; 출고관리</div>
+            <div class="side-item">▱ &nbsp; 배송관리</div><div class="side-item">▥ &nbsp; 보고서</div><div class="side-item">⚙ &nbsp; 설정</div>
+          </aside>
+          <main class="main-dash">
+            <div class="dash-top"><span>대시보드</span><span>♧　<span class="avatar">SJ</span></span></div>
+            <div class="kpis">
+              <div class="kpi"><small>오늘 입고</small><b>128</b><span class="up">↑ 12%</span></div>
+              <div class="kpi"><small>오늘 출고</small><b>356</b><span class="up">↑ 8%</span></div>
+              <div class="kpi"><small>재고 수량</small><b>12,480</b><span class="up">↑ 5%</span></div>
+              <div class="kpi"><small>배송 완료율</small><b>98.7%</b><span class="up">↑ 1.2%</span></div>
+            </div>
+            <div class="chart"><div class="chart-head"><span>물류량 추이</span><span>최근 7일⌄</span></div>
+              <svg viewBox="0 0 500 80" preserveAspectRatio="none"><polyline points="0,61 45,49 92,51 135,31 182,37 226,51 271,36 315,39 359,35 406,41 450,27 500,17" fill="none" stroke="#3567f3" stroke-width="3"/><polyline points="0,61 45,49 92,51 135,31 182,37 226,51 271,36 315,39 359,35 406,41 450,27 500,17 500,80 0,80" fill="rgba(53,103,243,.08)" stroke="none"/></svg>
+            </div>
+            <div class="bottom-grid">
+              <div class="table"><h4>최근 입출고 현황</h4><div class="rows">
+                <div class="row"><span>09-07 16:32</span><span>입고</span><span>120</span><span class="badge">완료</span></div>
+                <div class="row"><span>09-07 15:21</span><span>출고</span><span>80</span><span class="badge">완료</span></div>
+                <div class="row"><span>09-07 14:05</span><span>입고</span><span>200</span><span class="badge">완료</span></div>
+                <div class="row"><span>09-07 12:48</span><span>출고</span><span>150</span><span class="badge">완료</span></div>
+              </div></div>
+              <div class="donut-card"><h4>출고 현황</h4><div class="donut-box"><div class="donut"></div><div class="legend">● 정상 출고　92%<br>● 지연 출고　5%<br>● 취소　3%</div></div></div>
+            </div>
+          </main>
+        </div>
+        <div class="float-card"><div class="icon">◇</div><strong>실시간 재고 현황</strong>정확한 재고로 더 큰 신뢰를</div>
+        <div class="float-card two"><div class="icon">▣</div><strong>빠른 배송 처리</strong>주문부터 배송까지 한 번에</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="features">
+  <div class="container features">
+    <article class="feature"><div class="ficon">◇</div><h3>통합 재고 관리</h3><p>실시간 재고 현황을 확인하고<br>정확한 재고 관리를 실현하세요.</p></article>
+    <article class="feature"><div class="ficon">⌂</div><h3>창고 운영 최적화</h3><p>입고, 보관, 피킹, 출고까지<br>창고 운영을 효율적으로 관리합니다.</p></article>
+    <article class="feature"><div class="ficon">▣</div><h3>배송 추적</h3><p>운송 현황을 실시간으로 확인하고<br>고객에게 더 나은 서비스를 제공합니다.</p></article>
+    <article class="feature"><div class="ficon">↗</div><h3>데이터 기반 의사결정</h3><p>다양한 리포트와 분석으로<br>더 나은 비즈니스 전략을 세울 수 있습니다.</p></article>
+  </div>
+</section>
+
+<section class="solution" id="solution">
+  <div class="container solution-inner">
+    <div class="warehouse"><div class="shelf"></div><div class="inventory-card"><small>실시간 재고</small><b>12,480 개</b><span>↑ 5%　지난 24시간 대비</span></div></div>
+    <div class="solution-copy"><div class="label">OUR SOLUTION</div><h2>물류의 모든 과정을<br>하나의 플랫폼에서</h2><p>Palletto는 창고, 재고, 출고, 배송까지 물류의 전 과정을 간편하게 관리할 수 있는 올인원 솔루션입니다.</p><a class="btn btn-primary" href="#contact">솔루션 알아보기 →</a></div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="container"><h2>더 효율적인 물류 운영을 시작하세요.</h2><p>복잡한 물류 업무를 하나의 화면에서 간단하게 관리하세요.</p><a class="btn btn-primary" href="mailto:hello@palletto.example">무료로 시작하기 →</a></div>
+</section>
+
+<footer><div class="container footer-inner"><div class="footer-logo">◆ Palletto</div><div>© 2026 Palletto. All rights reserved.</div></div></footer>
+</body>
+</html>
